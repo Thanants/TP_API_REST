@@ -1,21 +1,24 @@
 package com.example.inicial1.controllers;
 
-import com.example.inicial1.dtos.PersonaDto;
 import com.example.inicial1.entities.Persona;
 import com.example.inicial1.services.PersonaServices;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/personas")
 public class PersonaController {
- //  @Autowired
-//PersonaServices servicio;
+    private PersonaServices personaServices;
 
+    public PersonaController(PersonaServices personaServices){
+        this.personaServices = personaServices;
+    }
+
+    //  @Autowired
+//PersonaServices servicio;
     @GetMapping("")
     public ResponseEntity<?> getAll(){
         try{
@@ -47,9 +50,8 @@ public class PersonaController {
         System.out.println("Nombre :" + entity.getApellido());
 
 
-
         try{
-            return ResponseEntity.status(HttpStatus.OK).body("Grabé los datos anteriores");
+            return ResponseEntity.status(HttpStatus.OK).body(personaServices.save(entity));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, por favor intente más tarde\"}");
@@ -64,7 +66,7 @@ public class PersonaController {
         System.out.println("Nombre :" + entity.getNombre());
         System.out.println("Apellido :" + entity.getApellido());
         try{
-            return ResponseEntity.status(HttpStatus.OK).body("Actualicé los datos anteriores");
+            return ResponseEntity.status(HttpStatus.OK).body(personaServices.update(id, entity));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, por favor intente más tarde\"}");
