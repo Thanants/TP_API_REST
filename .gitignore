@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 testdb.mv.db
+API_DB.mv.db
+testdb.mv.db
+gitignore
